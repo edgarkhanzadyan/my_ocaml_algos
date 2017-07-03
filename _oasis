@@ -1,0 +1,26 @@
+Name: Solving99problems
+Version: 0.1
+Synopsis: Edgar Khanzadian's algorithms
+Authors: Edgar Khanzadian <edgar.khanzadian@gmail.com>
+License: LGPL with OCaml linking exception
+
+Description: Edgar Khanzadian's algorithms
+
+OASISFormat: 0.4
+BuildTools: ocamlbuild
+Plugins: META (0.4), DevFiles (0.4)
+
+Executable "main"
+  Path: src
+  MainIs: main.ml
+  NativeOpt: -g -w +a-4-40..42-44-45-48
+  ByteOpt: -g -w +a-4-40..42-44-45-48
+  BuildDepends:
+   Algos
+
+Library "Algos"
+  Path: src/algos
+  CompiledObject: native
+  NativeOpt: -g -w +a-4-40..42-44-45-48
+  ByteOpt: -g -w +a-4-40..42-44-45-48
+  Modules: Merge_sort

@@ -1,0 +1,6 @@
+# structure of my awesome project
+S src
+S src/algos
+
+B _build/src
+B _build/src/algos
