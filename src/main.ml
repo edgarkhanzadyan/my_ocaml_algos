@@ -25,14 +25,27 @@ let time_fn name random fn counts =
       aux tail in
   aux counts;
   print_newline ();;
-time_fn
-  "merge_sort"
-  random_vect
-  Merge_sort.merge_sort_array
-  [10; 100; 1000; 10000; 100000; 1000000];
-(* merge_sort : 10 elements -> 0.000009 *)
-(* merge_sort : 100 elements -> 0.000078 *)
-(* merge_sort : 1000 elements -> 0.001057 *)
-(* merge_sort : 10000 elements -> 0.013286 *)
-(* merge_sort : 100000 elements -> 0.136587 *)
-(* merge_sort : 1000000 elements -> 1.578245 *)
+
+(* time_fn *)
+(*   "merge_sort_array" *)
+(*   random_vect *)
+(*   Merge_sort.merge_sort_array *)
+(*   [10; 100; 1000; 10000; 100000; 1000000]; *)
+(* merge_sort_array : 10 elements -> 0.000009 *)
+(* merge_sort_array : 100 elements -> 0.000081 *)
+(* merge_sort_array : 1000 elements -> 0.001066 *)
+(* merge_sort_array : 10000 elements -> 0.013871 *)
+(* merge_sort_array : 100000 elements -> 0.138763 *)
+(* merge_sort_array : 1000000 elements -> 1.525749 *)
+
+(* time_fn *)
+(*   "merge_sort" *)
+(*   random_list *)
+(*   Merge_sort.merge_sort_list *)
+(*   [10; 100; 1000; 10000; 100000; 1000000]; *)
+(* merge_sort_list : 10 elements -> 0.000012 *)
+(* merge_sort_list : 100 elements -> 0.000094 *)
+(* merge_sort_list : 1000 elements -> 0.001280 *)
+(* merge_sort_list : 10000 elements -> 0.015273 *)
+(* merge_sort_list : 100000 elements -> 0.168302 *)
+(* Fatal error: exception Stack_overflow *)
