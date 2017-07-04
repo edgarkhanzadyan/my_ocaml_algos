@@ -23,4 +23,4 @@ Library "Algos"
   CompiledObject: native
   NativeOpt: -g -w +a-4-40..42-44-45-48
   ByteOpt: -g -w +a-4-40..42-44-45-48
-  Modules: Merge_sort
+  Modules: Merge_sort, Binary_tree
