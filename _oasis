@@ -1,4 +1,4 @@
-Name: Solving99problems
+Name: My_ocaml_algos
 Version: 0.1
 Synopsis: Edgar Khanzadian's algorithms
 Authors: Edgar Khanzadian <edgar.khanzadian@gmail.com>
@@ -23,4 +23,4 @@ Library "Algos"
   CompiledObject: native
   NativeOpt: -g -w +a-4-40..42-44-45-48
   ByteOpt: -g -w +a-4-40..42-44-45-48
-  Modules: Merge_sort, Binary_tree
+  Modules: Merge_sort, Binary_tree, Binary_tree_avl
