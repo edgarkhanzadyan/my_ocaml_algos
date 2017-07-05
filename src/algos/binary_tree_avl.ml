@@ -127,30 +127,46 @@ let insert item tree =
     | [] -> acc
     | hd :: tl ->
       match hd with
-      | Node (n, h, l, r), bool ->
-        if bool then
+      | Node (n, h, l, r), direct ->
+        if direct then
           let reb = rebalance (Node (n, h, l, acc)) in
           rebalance_all reb tl
         else
           let reb = rebalance (Node (n, h, acc, r)) in
           rebalance_all reb tl
-      | Empty, bool -> failwith "never happens" in
+      | Empty, direct -> failwith "never happens" in
   let rec add_height acc = function
     | [] -> List.rev acc
     | hd :: tl ->
       match hd with
-      | Node (n, h, l, r), bool ->
-        add_height ((Node (n, h+1, l, r), bool) :: acc) tl
+      | Node (n, h, l, r), direct ->
+        add_height ((Node (n, h+1, l, r), direct) :: acc) tl
       | Empty, _ -> failwith "never happerns" in
+  let is_node_there = function
+    | Node _ -> true
+    | Empty -> false in
   let rec aux acc = function
     | Node (num, height, left, right) as tree ->
       if item >= num then
-        aux ((tree, true) :: acc) right
-      else aux ((tree, false) :: acc) left
+        if is_node_there right then 
+          aux ((tree, true) :: acc) right
+        else aux ((left, false) :: (tree, true) :: acc) right
+      else
+        if is_node_there left then
+          aux ((tree, false) :: acc) left
+        else aux ((right, false) :: (tree, false) :: acc) left
     | Empty ->
-      let new_node = Node (item, -1, Empty, Empty) in
-      let added_height = add_height [] ((new_node, true) :: acc) in
-      rebalance_all Empty added_height in
+      match acc with
+      | [] -> Empty
+      | hd :: tl ->
+        match hd with
+        | Node _, _ ->
+          let new_node = Node (item, 0, Empty, Empty) in
+          rebalance_all Empty ((new_node, true) :: tl)
+        | Empty, _ ->
+          let new_node = Node (item, -1, Empty, Empty) in
+          let added_height = add_height [] ((new_node, true) :: tl) in
+          rebalance_all Empty added_height in
   aux [] tree
 
 
