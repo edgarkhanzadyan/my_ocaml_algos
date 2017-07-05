@@ -75,3 +75,32 @@ let rec delete_from_tree item tree =
         Node(min_right, left, delete_from_tree min_right right)
     )
   | Empty -> failwith "Item not found";;
+
+let rec left_rotation item = function
+  | Node (n, left, right) ->
+    if item > n then Node(n, left, left_rotation item right)
+    else if item < n then Node(n, left_rotation item left, right)
+    else (
+      match right with
+      | Node (num, l, r) ->
+        Node(num, Node(n, left, l), r)
+      | Empty ->
+        failwith "this node doesn't have right side,
+                  so no left_rotation possible"
+    )
+  | Empty -> failwith "no such node";;
+
+let rec right_rotation item = function
+  | Node (n, left, right) ->
+    if item > n then Node(n, left, right_rotation item right)
+    else if item < n then Node(n, right_rotation item left, right)
+    else (
+      match left with
+      | Node (num, l, r) ->
+        Node(num, l, Node(n, right, r))
+      | Empty ->
+        failwith "this node doesn't have left side,
+                 so no right_rotation possible"
+    )
+  | Empty ->
+    failwith "no such node";;
