@@ -62,61 +62,61 @@ let rec right_rotation item = function
 let rebalance = function
   | Node(num, _, left, right) as tree ->
     (
-    match left, right with
-    | Node (n1, h1, l1, r1), Node(n2, h2, l2, r2) ->
-      if h2 - h1 > 1 then (
-        match l2, r2 with
-        | Node (_, he1, _, _), Node (_, he2, _, _) ->
-          if he1 - he2 = 1 then (
-            print_tree (right_rotation n2 tree);
+      match left, right with
+      | Node (n1, h1, l1, r1), Node(n2, h2, l2, r2) ->
+        if h2 - h1 > 1 then (
+          match l2, r2 with
+          | Node (_, he1, _, _), Node (_, he2, _, _) ->
+            if he1 - he2 = 1 then (
+              print_tree (right_rotation n2 tree);
+              left_rotation num (right_rotation n2 tree)
+            )
+            else left_rotation num tree
+          | Node _, Empty ->
             left_rotation num (right_rotation n2 tree)
-          )
-          else left_rotation num tree
-        | Node _, Empty ->
-          left_rotation num (right_rotation n2 tree)
-        | Empty, Node _ | Empty, Empty ->
-          left_rotation num tree
-      )
-      else if h1 - h2 > 1 then (
-        match l1, r1 with
-        | Node (_, he1, _, _), Node (_, he2, _, _) ->
-          if he2 - he1 = 1 then
+          | Empty, Node _ | Empty, Empty ->
+            left_rotation num tree
+        )
+        else if h1 - h2 > 1 then (
+          match l1, r1 with
+          | Node (_, he1, _, _), Node (_, he2, _, _) ->
+            if he2 - he1 = 1 then
+              right_rotation num (left_rotation n1 tree)
+            else right_rotation num tree
+          | Empty, Node _ ->
             right_rotation num (left_rotation n1 tree)
-          else right_rotation num tree
-        | Empty, Node _ ->
-          right_rotation num (left_rotation n1 tree)
-        | Node _, Empty | Empty, Empty ->
-          right_rotation num tree
-      )
-      else tree
-    | Node (n1, h1, l1, r1), Empty ->
-      let h2 = -1 in
-      if h1 - h2 > 1 then (
-        match l1, r1 with
-        | Node (_, he1, _, _), Node (_, he2, _, _) ->
-          if he2 - he1 = 1 then
+          | Node _, Empty | Empty, Empty ->
+            right_rotation num tree
+        )
+        else tree
+      | Node (n1, h1, l1, r1), Empty ->
+        let h2 = -1 in
+        if h1 - h2 > 1 then (
+          match l1, r1 with
+          | Node (_, he1, _, _), Node (_, he2, _, _) ->
+            if he2 - he1 = 1 then
+              right_rotation num (left_rotation n1 tree)
+            else right_rotation num tree
+          | Empty, Node _ ->
             right_rotation num (left_rotation n1 tree)
-          else right_rotation num tree
-        | Empty, Node _ ->
-          right_rotation num (left_rotation n1 tree)
-        | Node _, Empty | Empty, Empty ->
-          right_rotation num tree
-      )
-      else tree
-    | Empty, Node(n2, h2, l2, r2) ->
-      let h1 = -1 in
-      if h2 - h1 > 1 then (
-        match l2, r2 with
-        | Node (_, he1, _, _), Node (_, he2, _, _) ->
-          if he1 - he2 = 1 then
+          | Node _, Empty | Empty, Empty ->
+            right_rotation num tree
+        )
+        else tree
+      | Empty, Node(n2, h2, l2, r2) ->
+        let h1 = -1 in
+        if h2 - h1 > 1 then (
+          match l2, r2 with
+          | Node (_, he1, _, _), Node (_, he2, _, _) ->
+            if he1 - he2 = 1 then
+              left_rotation num (right_rotation n2 tree)
+            else left_rotation num tree
+          | Node _, Empty ->
             left_rotation num (right_rotation n2 tree)
-          else left_rotation num tree
-        | Node _, Empty ->
-          left_rotation num (right_rotation n2 tree)
-        | Empty, Node _ | Empty, Empty ->
-          left_rotation num tree
-      )
-      else tree
+          | Empty, Node _ | Empty, Empty ->
+            left_rotation num tree
+        )
+        else tree
     | Empty, Empty ->
       tree
   )
