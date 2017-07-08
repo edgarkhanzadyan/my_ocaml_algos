@@ -19,7 +19,52 @@ let print_tree tree=
     | Empty -> () in
   aux "" tree;;
         
-  
+
+let predecessor item tree =
+  let rec go_to_parent = function
+    | [] -> failwith "no predeseccor"
+    | hd :: tl ->
+      let tr, direct = hd in
+      match tr with
+      | Node (num, _, _, _) ->
+        if direct then num
+        else go_to_parent tl
+      | Empty -> failwith "never happends predecessor" in
+  let rec aux acc = function 
+    | Node (num, _, left, right) as tree ->
+      if item > num then aux ((tree, true) :: acc) right
+      else if item < num then aux ((tree, false) :: acc) left
+      else (
+        match left with
+        | Node (n, _, _, _) -> n
+        | Empty -> go_to_parent acc
+      )
+    | Empty -> failwith "shit" in
+  aux [] tree
+    
+let successor item tree =
+  let rec go_to_parent = function
+    | [] -> failwith "no successor"
+    | hd :: tl ->
+      let tr, direct = hd in
+      match tr with
+      | Node (num, _, _, _) ->
+        if not direct then num
+        else go_to_parent tl
+      | Empty -> failwith "never happends successor" in
+  let rec aux acc = function 
+    | Node (num, _, left, right) as tree ->
+      if item > num then aux ((tree, true) :: acc) right
+      else if item < num then aux ((tree, false) :: acc) left
+      else (
+        match right with
+        | Node (n, _, _, _) -> n
+        | Empty -> go_to_parent acc
+      )
+    | Empty -> failwith "shit" in
+  aux [] tree
+
+
 let rec left_rotation item = function
   | Node (num, height, left, right) ->
     if item > num then Node(num, height, left, left_rotation item right)
@@ -67,10 +112,7 @@ let rebalance = function
         if h2 - h1 > 1 then (
           match l2, r2 with
           | Node (_, he1, _, _), Node (_, he2, _, _) ->
-            if he1 - he2 = 1 then (
-              print_tree (right_rotation n2 tree);
-              left_rotation num (right_rotation n2 tree)
-            )
+            if he1 - he2 = 1 then left_rotation num (right_rotation n2 tree)
             else left_rotation num tree
           | Node _, Empty ->
             left_rotation num (right_rotation n2 tree)
@@ -80,8 +122,7 @@ let rebalance = function
         else if h1 - h2 > 1 then (
           match l1, r1 with
           | Node (_, he1, _, _), Node (_, he2, _, _) ->
-            if he2 - he1 = 1 then
-              right_rotation num (left_rotation n1 tree)
+            if he2 - he1 = 1 then right_rotation num (left_rotation n1 tree)
             else right_rotation num tree
           | Empty, Node _ ->
             right_rotation num (left_rotation n1 tree)
@@ -134,7 +175,7 @@ let insert item tree =
         else
           let reb = rebalance (Node (n, h, acc, r)) in
           rebalance_all reb tl
-      | Empty, direct -> failwith "never happens" in
+      | Empty, _ -> failwith "never happens" in
   let rec add_height acc = function
     | [] -> List.rev acc
     | hd :: tl ->
@@ -146,7 +187,7 @@ let insert item tree =
     | Node _ -> true
     | Empty -> false in
   let rec aux acc = function
-    | Node (num, height, left, right) as tree ->
+    | Node (num, _, left, right) as tree ->
       if item >= num then
         if is_node_there right then 
           aux ((tree, true) :: acc) right
