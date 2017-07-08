@@ -9,11 +9,12 @@ let counting_sort arr =
   for i = 0 to (Array.length arr) - 1 do
     counted_arr.(arr.(i) - 1) <- counted_arr.(arr.(i) - 1) + 1
   done;
-  (* Array.iter print_int counted_arr; *)
-  let rec listify acc i j=
-    if i = 0 && j = 0 then acc
-    else if j = 0 then listify acc (i - 1) (counted_arr.(i - 1))
-    else listify (i+1 :: acc) i (j - 1) in
-  let len = Array.length counted_arr in
-  listify [] (len - 1) (counted_arr.(len - 1));;
-
+  let n = ref 0 in
+  for i = 0 to (Array.length counted_arr) - 1 do
+    while counted_arr.(i) > 0 do
+      counted_arr.(i) <- counted_arr.(i) - 1;
+      n := !n + 1;
+      arr.(!n - 1) <- i + 1
+    done;
+  done;
+  arr;;
